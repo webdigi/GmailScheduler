@@ -1,4 +1,4 @@
-
+//Refer to troubleshooting #1 to see how to remove any error messages
 function createTriggers() {
   deleteTriggers();
   
