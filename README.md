@@ -28,6 +28,13 @@ Returning messages to inbox
 - Another useful feature is to allow gmail to return messages back to inbox.
 - Simply apply a label under timer to any of our message and it will be returned back to your inbox as per schedule.
 
+## Troubleshooting
+1) Cannot connect to Gmail
+- You might occasionally see an error that looks like the image below.
+[![ErrorWithGmail](http://i.imgur.com/CNZAWhI.png)](http://i.imgur.com/CNZAWhI.png)
+- The message above means that Gmail could not connect to Google app scripts. This weird timeout happens between google services and you can ignore these messages. Any queued messages will be sent out in the next run.
+
+
 ## Further support & updates
 - We look forward to your feedback on how we can improve this system
 - Your commits and code updates are welcome. Looking forward to all the pull requests :)
