@@ -102,16 +102,16 @@ function getUserChildLabels(label) {
 function parseDate(str) {  
  // return Date.parse(str);
    if(dateConversionRequired(str)){
-       return convertToUserDate(Date.create(str));
+       return convertToUserDate(Date.future(str));
    }
   
-  return Date.create(str);
+  return Date.future(str);
 }
 
 function parseDateFormat(str) { 
    
  // var date = Date.parse(str);
-  var date = Date.create(str);
+  var date = Date.future(str);
   if (date.isValid() && date.isFuture()) {
     if(dateConversionRequired(str)){
        return convertToUserDate(date).full();
