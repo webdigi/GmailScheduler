@@ -28,6 +28,9 @@ Returning messages to inbox
 - Another useful feature is to allow gmail to return messages back to inbox.
 - Simply apply a label under timer to any of our message and it will be returned back to your inbox as per schedule.
 
+Accessing your GmailScheduler settings:
+- https://script.google.com/macros/s/AKfycbw6hnnKGeG6xUsbRE9c3WSvJibTbaW88DP9f83e8lFnc1v1kL0/exec
+
 ## Troubleshooting
 1) Cannot connect to Gmail
 - You might occasionally see an error that looks like the image below.
