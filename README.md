@@ -40,9 +40,8 @@ Accessing your GmailScheduler settings:
 
 2) Uninstalling Gmail Scheduler
 - It is quite easy to uninstall Gmail Scheduler at any time. 
-- Simply visit the Connected Apps & Services under your Gmail account. You can follow this link https://security.google.com/settings/security/permissions?pli=1
-- Then find Gmail Scheduler -> Click on Gmail Scheduler -> Then Revoke access. Thats it.
-- You can also follow the initial setup again to install the scheduler again.
+- Simply visit the https://script.google.com/macros/s/AKfycbw6hnnKGeG6xUsbRE9c3WSvJibTbaW88DP9f83e8lFnc1v1kL0/manage/uninstall
+- Click on Uninstall (You can always follow the initial setup again to reinstall the scheduler)
 
 ## Further support & updates
 - We look forward to your feedback on how we can improve this system
