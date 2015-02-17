@@ -113,10 +113,7 @@ function parseDateFormat(str) {
  // var date = Date.parse(str);
   var date = Date.future(str);
   if (date.isValid() && date.isFuture()) {
-    if(dateConversionRequired(str)){
-       return convertToUserDate(date).full();
-    }
-    return date.full();
+    return convertToUserDate(date).full();
   }
 
   return null;
