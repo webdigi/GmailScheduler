@@ -14,7 +14,8 @@ function getTimeZoneString() {
 
 function convertToUserDate(date) {
   var user_timezone_string = getTimeZoneString();
-  var user_date_string = Utilities.formatDate(date, user_timezone_string, "yyyy/MM/dd HH:mm:ss");
+  var user_date_string = Utilities.formatDate(date, 'utc', "yyyy/MM/dd HH:mm:ss");
+  debug('user_date_string: ' + user_date_string)
   var user_date = new Date(user_date_string);
   debug('Converted:' + date + ' to user time:' + user_date);
   return user_date;
@@ -99,21 +100,19 @@ function getUserChildLabels(label) {
 
 
 
-function parseDate(str) {  
- // return Date.parse(str);
-   if(dateConversionRequired(str)){
-       return convertToUserDate(Date.future(str));
-   }
-  
-  return Date.future(str);
+function parseDate(str) {
+  debug('parseDate str input: ' + str);
+  var date = Date.utc.future(str);
+  debug('parseDate date created from str: ' + date);
+   return convertToUserDate(date).full();
 }
 
 function parseDateFormat(str) { 
-   
- // var date = Date.parse(str);
-  var date = Date.future(str);
+  debug('parseDateFormat string input: ' + str);
+  var date = Date.utc.future(str);
+  debug('parseDateFormat date created from str: ' + date);
   if (date.isValid() && date.isFuture()) {
-    return convertToUserDate(date).full();
+      return convertToUserDate(date).full();
   }
 
   return null;
