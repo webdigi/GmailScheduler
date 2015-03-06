@@ -46,3 +46,7 @@ Accessing your GmailScheduler settings:
 ## Further support & updates
 - We look forward to your feedback on how we can improve this system
 - Your commits and code updates are welcome. Looking forward to all the pull requests :)
+
+### License
+GmailScheduler is licensed under the [MIT license](https://github.com/webdigi/GmailScheduler/blob/master/LICENSE.txt). Maintained by Webdigi, a [Web Development agency](https://www.webdigi.co.uk) in London, UK
+
