@@ -17,8 +17,8 @@ Further, you can help contribute and make it better. Please send us your feedbac
 ## Using Gmail Scheduler
 Quick initial set up
 - [Click to open Gmail Scheduler](https://script.google.com/macros/s/AKfycbw6hnnKGeG6xUsbRE9c3WSvJibTbaW88DP9f83e8lFnc1v1kL0/exec)
-- Accept permisssions
-- Create labels as required. Feel free to add as many as you like. A pro tip is to use "2 hours later" then for days use "two days later" and so on. This means that 2 will show on the labels above two and so on. This will help make selecting the scheudule easier.
+- Accept permissions
+- Create labels as required. Feel free to add as many as you like. A pro tip is to use "2 hours later" then for days use "two days later" and so on. This means that 2 will show on the labels above two and so on. This will help make selecting the schedule easier.
 
 Outgoing messages
 - Now you are all set and go back to gmail and compose a message and add the label under timer as required.
