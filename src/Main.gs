@@ -43,36 +43,36 @@ function dispatchDraft(id) {
       /* Credit - YetAnotherMailMerge */
 
       var regMessageId = new RegExp(id, "g");
-      if (body.match(regMessageId) != null) {
+      if (body.match(regMessageId) !== null) {
         var inlineImages = {};
         var nbrOfImg = body.match(regMessageId).length;
         var imgVars = body.match(/<img[^>]+>/g);
         var imgToReplace = [];
-        if(imgVars != null){
+        if(imgVars !== null){
           for (var i = 0; i < imgVars.length; i++) {
             if (imgVars[i].search(regMessageId) != -1) {
               var id = imgVars[i].match(/realattid=([^&]+)&/);
-              if (id != null) {
+              if (id !== null) {
                 id = id[1];
                 var temp = raw.split(id)[1];
                 temp = temp.substr(temp.lastIndexOf('Content-Type'));
                 var imgTitle = temp.match(/name="([^"]+)"/);
                 var contentType = temp.match(/Content-Type: ([^;]+);/);
-                contentType = (contentType != null) ? contentType[1] : "image/jpeg";
+                contentType = (contentType !== null) ? contentType[1] : "image/jpeg";
                 var b64c1 = raw.lastIndexOf(id) + id.length + 3; // first character in image base64
                 var b64cn = raw.substr(b64c1).indexOf("--") - 3; // last character in image base64
                 var imgb64 = raw.substring(b64c1, b64c1 + b64cn + 1); // is this fragile or safe enough?
                 var imgblob = Utilities.newBlob(Utilities.base64Decode(imgb64), contentType, id); // decode and blob
-                if (imgTitle != null) imgToReplace.push([imgTitle[1], imgVars[i], id, imgblob]);
+                if (imgTitle !== null) imgToReplace.push([imgTitle[1], imgVars[i], id, imgblob]);
               }
             }
           }
         }
 
-        for (var i = 0; i < imgToReplace.length; i++) {
-          inlineImages[imgToReplace[i][2]] = imgToReplace[i][3];
-          var newImg = imgToReplace[i][1].replace(/src="[^\"]+\"/, "src=\"cid:" + imgToReplace[i][2] + "\"");
-          body = body.replace(imgToReplace[i][1], newImg);
+        for (var z = 0; z < imgToReplace.length; z++) {
+          inlineImages[imgToReplace[z][2]] = imgToReplace[z][3];
+          var newImg = imgToReplace[z][1].replace(/src="[^\"]+\"/, "src=\"cid:" + imgToReplace[z][2] + "\"");
+          body = body.replace(imgToReplace[z][1], newImg);
         }
       }
 
