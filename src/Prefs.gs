@@ -18,7 +18,7 @@ function Prefs () {
 }
 
 function getUserPrefs (force_reload) {
-  if (USER_PREFS == null || force_reload) {
+  if (USER_PREFS === null || force_reload) {
     debug('User preferences object empty.. reloading..')
     USER_PREFS = new Prefs()
 
@@ -51,7 +51,7 @@ function loadPrefsForForm () {
   }
 
   for (default_prop in DEFAULT_PREFS) {
-    if (prefs[default_prop] == undefined) {
+    if (prefs[default_prop] === undefined) {
       prefs[default_prop] = DEFAULT_PREFS[default_prop]
 
       debug('Loading default property for key:' + default_prop + ' value: ' + prefs[default_prop])
