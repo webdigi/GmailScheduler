@@ -93,7 +93,6 @@ function getUserChildLabels (label) {
 }
 
 function parseDate (str) {
-  // return Date.parse(str)
   if (dateConversionRequired(str)) {
     return convertToUserDate(Date.future(str))
   }
@@ -102,7 +101,6 @@ function parseDate (str) {
 }
 
 function parseDateFormat (str) {
-  // var date = Date.parse(str)
   var date = Date.future(str)
   if (date.isValid() && date.isFuture()) {
     return convertToUserDate(date).full()
