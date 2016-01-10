@@ -28,11 +28,11 @@ function serviceGetThreads(message) {
 }
 
 function serviceGetRawMessage(message) {
-   return message.getRawContent(); 
+   return message.getRawContent();
 }
 
 function serviceGetMessageFrom(message) {
-  return message.getFrom(); 
+  return message.getFrom();
 }
 
 function serviceGetMessageCC(message) {
@@ -53,11 +53,11 @@ function serviceGetMessageAttachments(message) {
 
 // -- GMAIL SERVICES --
 function serviceGmailSearch(search_string) {
- return GmailApp.search(search_string); 
+ return GmailApp.search(search_string);
 }
 
 function serviceCreateLabel(labelName) {
-  return GmailApp.createLabel(labelName); 
+  return GmailApp.createLabel(labelName);
 }
 
 function serviceDeleteLabel(labelName){
@@ -75,7 +75,7 @@ function serviceRemoveLabelFromThread(thread, label) {
 }
 
 function serviceSendEmailMessage(to, subject, body, htmlBody, cc, bcc, from, attach, name) {
-  return executeCommand( 
+  return executeCommand(
     function() {
       GmailApp.sendEmail(to, subject, body, {htmlBody: htmlBody, cc: cc, bcc: bcc, from: from, attachments: attach, name: name} );
     });
@@ -117,6 +117,3 @@ function serviceGetTriggers() {
 function serviceDeleteTrigger(functionName) {
   ScriptApp.deleteTrigger(findTrigger(functionName));
 }
-
-
-

@@ -14,4 +14,3 @@ function getPrefs() {
 function restoreDefaultPrefs(form_object) {
   return clearPreferences();
 }
-

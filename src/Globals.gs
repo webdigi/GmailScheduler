@@ -33,5 +33,5 @@ var DEFAULT_PREFS = {
   nolabel_drafs_to_inbox:false,
   send_message_sms:false,
    localzone: 'default',
-  timer: ['1 hour later','2 hours later','3 hours later','One day later','tomorrow 9am','next monday 9am']    
+  timer: ['1 hour later','2 hours later','3 hours later','One day later','tomorrow 9am','next monday 9am']
 };

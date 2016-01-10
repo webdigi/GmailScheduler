@@ -1,15 +1,15 @@
 function getTimeZoneString() {
   var userPrefs =getUserPrefs();
   var timezone_string = userPrefs['localzone'];
-  
+
   debug('User timezone:' + timezone_string);
-  
+
   if(timezone_string == DEFAULT_TIMEZONE) {
     timezone_string = CalendarApp.getDefaultCalendar().getTimeZone();
     debug('Loading timezone from calendar: ' + timezone_string);
   }
-  
-  return timezone_string;  
+
+  return timezone_string;
 }
 
 function convertToUserDate(date) {
@@ -24,7 +24,7 @@ function getActiveUser(){
   return Session.getActiveUser();
 }
 
-function getActiveUserEmail(){ 
+function getActiveUserEmail(){
   return getActiveUser().getEmail();
 }
 
@@ -40,7 +40,7 @@ function userHasLabel(label) {
 
 function createLabel(label) {
   var label = serviceCreateLabel(label);
-  
+
   if(label) {
     debug('New label created successfully');
     return true;
@@ -54,29 +54,29 @@ function createLabel(label) {
 
 function deleteLabel(label) {
   var label = serviceDeleteLabel(label);
-  
+
   if(label) {
     debug('label deleted successfully');
     return true;
   }
   else {
-    
+
     debug('Error deleting label!');
     return false;
   }
 }
 
 function createTimerChildLabels(labels) {
-  for (var i in labels) { 
+  for (var i in labels) {
       createLabel(SCHEDULER_LABEL+'/'+SCHEDULER_TIMER_LABEL+'/'+labels[i]);
   }
-  
+
   return true;
-  
+
 }
 
 function createTimerChildLabel(label) {
- 
+
   createLabel(SCHEDULER_LABEL+'/'+SCHEDULER_TIMER_LABEL+'/'+label);
 }
 
@@ -85,31 +85,31 @@ function deleteTimerChildLabel(label) {
 }
 
 
-function getUserChildLabels(label) {  
+function getUserChildLabels(label) {
   labels = serviceGetUserLabels();
   var childLabels = [];
-  for(var i=0; i<labels.length; i++){    
-    if(labels[i].getName().indexOf(label+'/')==0){    
+  for(var i=0; i<labels.length; i++){
+    if(labels[i].getName().indexOf(label+'/')==0){
       childLabels.push(labels[i].getName().replace(label+'/', ""));
     }
-    
+
   }
   return childLabels;
 }
 
 
 
-function parseDate(str) {  
+function parseDate(str) {
  // return Date.parse(str);
    if(dateConversionRequired(str)){
        return convertToUserDate(Date.future(str));
    }
-  
+
   return Date.future(str);
 }
 
-function parseDateFormat(str) { 
-   
+function parseDateFormat(str) {
+
  // var date = Date.parse(str);
   var date = Date.future(str);
   if (date.isValid() && date.isFuture()) {
@@ -131,5 +131,5 @@ function dateConversionRequired(str) {
              return true;
            }
         }
-        return false; 
+        return false;
 }

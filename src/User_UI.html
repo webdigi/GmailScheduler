@@ -2,14 +2,14 @@
     <script>
         function showAlert(message) {
             showLoadingMessage(false);
-           
+
         }
-    
+
         function showError(error) {
             showLoadingMessage(false);
             alert('ERROR:' + error.message);
         }
-        
+
         function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
@@ -18,69 +18,69 @@
     }
   }
 }
-    
+
         function getHandlers() {
             return google.script.run.withSuccessHandler(showAlert).withFailureHandler(showError);
         }
-    
-    
+
+
         function validate() {
-            debug('Starting validation check.');     
+            debug('Starting validation check.');
 
             return true;
         }
-    
+
         function getHandlersAndHidePrefs() {
             showLoadingMessage(true);
             return getHandlers();
         }
-    
+
         function submitOnEnter(keycode) {
             if (keycode == 13) { // Enter is 13
                 getAndSubmitDate();
-        
+
                 // Restore default value
                 var element = document.getElementById('date');
                 element.value = element.attributes['value'].value;
             }
         }
-    
-   
-    
+
+
+
 
         function restorePrefsHandler(prefs_object) {
             debug('Restoring preferences');
             getHandlers().setupStaticLabels();
-            
+
             //set timezone in display
              document.getElementById('loggedinUserTimezone').innerHTML = prefs_object['localzone'];
-           
-            for (var id_name in prefs_object) { 
+
+            for (var id_name in prefs_object) {
              //if timer preference then load default labels or user labels
                 if(id_name=='timer'){
-                
+
                     var timerLabels = prefs_object[id_name];
                    //timerLabels.sort();
                     addTimerLabels(timerLabels);
 
                      continue;
                 }
-                
-                
-                
+
+
+
                 // First try to find element with the name, if so it's a text box so set value
                 var element = document.getElementById(id_name);
-           
+
                 if (element) {
                     debug('    Found as a text box. id:' + element.id + ' value: ' + prefs_object[id_name]);
                     element.value = prefs_object[id_name];
                     continue;
                 }
-        
+
                 // If that fails, try to find element with name + value, which means its a checkbox
                 // to set .checked to true
                 element = document.getElementById(id_name + '_' + prefs_object[id_name]);
-     
+
                 if (element)  {
                     debug('    Found as a checked box. id:' + element.id + ' value: checked');
                     element.checked = true
@@ -88,24 +88,24 @@
                 }
                 warn('Could not find element with name: ' + id_name);
             }
-    
+
             showLoadingMessage(false);
         }
-    
+
         function showLoadingMessage(show) {
             var loading_display = 'block';
             var form_display = 'none';
-    
+
             if(!show) {
                 var loading_display = 'none';
                 var form_display = 'block';
-            } 
-      
+            }
+
             document.getElementById('status').style.display = loading_display;
             document.getElementById('prefs_form').style.display = form_display;
-     
+
         }
-        
+
         var timerLabelValid = false;
         function validateTimerLabel(label){
             return timerLabelValid;
@@ -114,121 +114,121 @@
          var  label =  item.parentNode.childNodes[0].innerHTML;
          var liItem = item.parentNode;
           google.script.run.withSuccessHandler(function(){
-            liItem.parentNode.removeChild(liItem);      
-            
+            liItem.parentNode.removeChild(liItem);
+
           }).withFailureHandler(showError).deleteTimerChildLabel(label);
         }
-        
+
         function addTimerLabels(labels){
               var items  = document.getElementById("timerLabelsList");
-              
-              var item = document.createElement("li");         
+
+              var item = document.createElement("li");
               item.innerHTML = '<label>Loading your active labels...</label>';
               items.appendChild(item);
-              
+
              google.script.run.withSuccessHandler(function(){
              items.removeChild(item);
-              for (var i in labels) {                           
+              for (var i in labels) {
 
                   addTimerLabelToList(labels[i]);
                }
-             
-          
+
+
              }).withFailureHandler(showError).createTimerChildLabels(labels);
         }
-        
+
         function addTimerLabel(label){
           var timerLabelDateString = document.getElementById('timerLabelDateString');
           var timerLabelInput =  document.getElementById('new_timer_label');
              google.script.run.withSuccessHandler(function(){
                      addTimerLabelToList(label);
-                     
-                 timerLabelDateString.innerHTML = 'Added GScheduler/Timer/"'+label+'" to your gmail now';  
+
+                 timerLabelDateString.innerHTML = 'Added GScheduler/Timer/"'+label+'" to your gmail now';
                   timerLabelInput.value = '';
              }).withFailureHandler(showError).createTimerChildLabel(label);
-       
-           
+
+
         }
-        
+
         function addTimerLabelToList(label){
               var items  = document.getElementById("timerLabelsList");
-              
-              var item = document.createElement("li");         
+
+              var item = document.createElement("li");
               item.innerHTML = '<label>'+label+'</label> <span onclick="deleteTimerLabel(this)" ><a href="#">Delete</a></span>';
               items.appendChild(item);
         }
-    
+
     function savePrefsForm(){
       showLoadingMessage(true);
-      google.script.run.withSuccessHandler(function(){    
+      google.script.run.withSuccessHandler(function(){
           showLoadingMessage(false);
           document.getElementById('loggedinUserTimezone').innerHTML = document.getElementById('localzone').value;
       }).withFailureHandler(showError).savePrefs(document.getElementById("prefs_form"));
     }
-    
+
         function init() {
-            debug('Starting init'); 
-            
-            google.script.run.withSuccessHandler(showAlert).withFailureHandler(showError).sendWelcomeEmail();       
+            debug('Starting init');
+
+            google.script.run.withSuccessHandler(showAlert).withFailureHandler(showError).sendWelcomeEmail();
             google.script.run.withSuccessHandler(restorePrefsHandler).withFailureHandler(showError).getPrefs();
-            getHandlers().createTriggers(); 
+            getHandlers().createTriggers();
              google.script.run.withSuccessHandler(function(userEmail){
               document.getElementById('loggedinUserEmail').innerHTML = userEmail;
              }).withFailureHandler(showError).getActiveUserEmail();
-             
-        
-             
-            
-            
+
+
+
+
+
            var timerLabelInput =  document.getElementById('new_timer_label');
           var timerLabelDateString = document.getElementById('timerLabelDateString');
-           timerLabelInput.onkeyup= function(){        
+           timerLabelInput.onkeyup= function(){
            timerLabelValid = false;
-         
+
            document.getElementById('timerLabelDateString').innerHTML = 'Processing date';
-        
+
            google.script.run.withSuccessHandler(function(dateString){
-           
+
               if(dateString!=null){
                  timerLabelValid = true;
                  document.getElementById('timerLabelDateString').innerHTML = 'The label '+timerLabelInput.value+' would trigger the email on '+dateString + '. Please click Add to create this label.';
                  timerLabelInput.parentNode.classList.remove("has-error");
                  timerLabelInput.parentNode.classList.add("has-success");
-                 
+
                 timerLabelDateString.classList.remove("bg-danger");
-                 
+
               }else{
                 timerLabelValid = false;
                 document.getElementById('timerLabelDateString').innerHTML = 'Invalid date to "Date in the past / Cannot find date from label name"';
                 timerLabelInput.parentNode.classList.remove("has-success");
                 timerLabelInput.parentNode.classList.add("has-error");
-               
+
                   timerLabelDateString.classList.add("bg-danger");
              }
            }).withFailureHandler(showError).parseDateFormat(timerLabelInput.value);
-           
+
            }
-          
+
         }
         function debug(msg) {
             console.log(msg);
         }
-    
+
         function warn(msg) {
             console.warn(msg);
         }
-    
+
         function error(msg) {
             console.error(msg);
         }
     </script>
     <head>
-        <title>GmailScheduler</title>       
+        <title>GmailScheduler</title>
 
     </head>
     <body onload="init();" style="width:800px">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <div id="container" style="padding:10px;">
         <h1>Gmail Scheduler</h1>
 
@@ -245,12 +245,12 @@
                 <legend><strong>Manage Timer Labels</strong></legend>
                 <div>Labels are the quick and easy way to schedule a message using the Gmail site or the Gmail app on your phone.<br/><br/>
                 To send an email later, all you have to do is create your gmail message as you normally do and then apply a label to it. The draft email will be automatically sent out as scheduled along with all attachments.<br/><br/>
-                To make a message return to your inbox, simply add a label that corresponds to when you want the message returned to your inbox and then archive the message. The message will return to inbox as scheduled.<br/><br/>                
+                To make a message return to your inbox, simply add a label that corresponds to when you want the message returned to your inbox and then archive the message. The message will return to inbox as scheduled.<br/><br/>
                 A few commonly used labels are already added for you. You can go ahead and create additional labels for times that you are most likely to use.</div><br/>
                 <div class="form-group">
-                <label for="enterLabels" style="float:left;margin-right:10px;">Create a new label</label>  
-                <input type="text" class="form-control" name="new_timer_label" placeholder="Enter a label" id="new_timer_label" style="width:300px;float:left;margin-right:10px;" ></input>    
-              
+                <label for="enterLabels" style="float:left;margin-right:10px;">Create a new label</label>
+                <input type="text" class="form-control" name="new_timer_label" placeholder="Enter a label" id="new_timer_label" style="width:300px;float:left;margin-right:10px;" ></input>
+
               <input type="button"    class="btn btn-primary" name="add_timer_label" value="Add" onclick='if (validateTimerLabel()) addTimerLabel(document.getElementById("new_timer_label").value)'>
                 </div>
                 <span class="bg-success" id="timerLabelDateString"></span>
@@ -258,16 +258,16 @@
                     <br/>You can setup as many labels as you like.</p>
                 <hr/>
                 <p>List of active labels</p>
-                <ul id="timerLabelsList">                    
+                <ul id="timerLabelsList">
                 </ul>
             </fieldset>
             <br/>
             <fieldset>
                 <legend><strong>Settings</strong></legend>
                 <div><a name="changeTimezone"></a>
-                Select your time zone 
+                Select your time zone
                 <select name="localzone" id="localzone" class="form-control">
-                <option value="default">Google calendar default</option>   
+                <option value="default">Google calendar default</option>
                 <option value="Etc/GMT+12" >(GMT -12:00) Eniwetok, Kwajalein</option>
                 <option value="Etc/GMT+11" >(GMT -11:00) Midway Island, Samoa</option>
                 <option value="Pacific/Honolulu" >(GMT -10:00) Hawaii</option>
