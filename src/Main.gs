@@ -23,44 +23,42 @@ function sendWelcomeEmail () {
     GmailApp.sendEmail(getActiveUserEmail(), EMAIL_WELCOME_SUBJECT, body, options)
     userPrefs['email_welcome_sent'] = true
     serviceSaveProperty(userPrefs, true)
-
   }
-
 }
 
-// /////////OUTGOING SENT MSG
+/////////// OUTGOING SENT MSG
 function dispatchDraft (id) {
   try {
     var message = GmailApp.getMessageById(id)
 
     if (message) {
       var body = message.getBody()
-      var raw = message.getRawContent()
+      var raw  = message.getRawContent()
+      var inlineImages = {}
 
       /* Credit - YetAnotherMailMerge */
 
       var regMessageId = new RegExp(id, 'g')
       if (body.match(regMessageId) !== null) {
-        var inlineImages = {}
-        var nbrOfImg = body.match(regMessageId).length
         var imgVars = body.match(/<img[^>]+>/g)
         var imgToReplace = []
+
         if (imgVars !== null) {
           for (var i = 0; i < imgVars.length; i++) {
             if (imgVars[i].search(regMessageId) != -1) {
-              var id = imgVars[i].match(/realattid=([^&]+)&/)
-              if (id !== null) {
-                id = id[1]
-                var temp = raw.split(id)[1]
+              var imgId = imgVars[i].match(/realattid=([^&]+)&/)
+              if (imgId !== null) {
+                imgId = imgId[1]
+                var temp = raw.split(imgId)[1]
                 temp = temp.substr(temp.lastIndexOf('Content-Type'))
                 var imgTitle = temp.match(/name="([^"]+)"/)
                 var contentType = temp.match(/Content-Type: ([^;]+);/)
                 contentType = (contentType !== null) ? contentType[1] : 'image/jpeg'
-                var b64c1 = raw.lastIndexOf(id) + id.length + 3 // first character in image base64
+                var b64c1 = raw.lastIndexOf(imgId) + imgId.length + 3 // first character in image base64
                 var b64cn = raw.substr(b64c1).indexOf('--') - 3 // last character in image base64
                 var imgb64 = raw.substring(b64c1, b64c1 + b64cn + 1); // is this fragile or safe enough?
-                var imgblob = Utilities.newBlob(Utilities.base64Decode(imgb64), contentType, id) // decode and blob
-                if (imgTitle !== null) imgToReplace.push([imgTitle[1], imgVars[i], id, imgblob])
+                var imgblob = Utilities.newBlob(Utilities.base64Decode(imgb64), contentType, imgId) // decode and blob
+                if (imgTitle !== null) imgToReplace.push([imgTitle[1], imgVars[i], imgId, imgblob])
               }
             }
           }
