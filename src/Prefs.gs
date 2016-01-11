@@ -32,7 +32,7 @@ function savePrefsFromForm (form_object) {
   for (var prop in form_object)
     debug(' - ' + prop + ' => ' + form_object[prop])
 
-  serviceSaveProperty(form_object, true)
+  UserProperties.setProperties(form_object, true)
 
   var prefs = getUserPrefs(true)
 
@@ -44,7 +44,7 @@ function savePrefsFromForm (form_object) {
 }
 
 function loadPrefsForForm () {
-  prefs = serviceGetProperties()
+  prefs = UserProperties.getProperties()
   var timerLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
   if (timerLabels.length) {
     prefs['timer'] = timerLabels
@@ -62,14 +62,14 @@ function loadPrefsForForm () {
 }
 
 function clearPreferences (form_object) {
-  serviceClearProperties()
+  UserProperties.deleteAllProperties()
 
   // TODO Can I refresh page automatically?
   return 'Defaults restored. Please refresh page.'
 }
 
 function setTimeZone (timezone) {
-  prefs = serviceGetProperties()
+  prefs = UserProperties.getProperties()
   prefs['localzone'] = timezone
 
   return true

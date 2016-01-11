@@ -1,11 +1,11 @@
 function setupStaticLabels () {
-  serviceCreateLabel(SCHEDULER_LABEL)
-  serviceCreateLabel(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
-  serviceCreateLabel(SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL)
+  GmailApp.createLabel(SCHEDULER_LABEL)
+  GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
+  GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL)
 
   // Extras
-  serviceCreateLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL)
-  serviceCreateLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL + '/' + SCHEDULER_SMS_LABEL)
+  GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL)
+  GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL + '/' + SCHEDULER_SMS_LABEL)
 }
 
 function sendWelcomeEmail () {
@@ -22,7 +22,7 @@ function sendWelcomeEmail () {
   if (!userPrefs['email_welcome_sent']) {
     GmailApp.sendEmail(getActiveUserEmail(), EMAIL_WELCOME_SUBJECT, body, options)
     userPrefs['email_welcome_sent'] = true
-    serviceSaveProperty(userPrefs, true)
+    UserProperties.setProperties(userPrefs, true)
   }
 }
 

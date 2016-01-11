@@ -29,7 +29,7 @@ function getActiveUserEmail () {
 }
 
 function userHasLabel (label) {
-  labels = serviceGetUserLabels()
+  labels = GmailApp.getUserLabels()
   for (var i = 0; i < labels.length; i++) {
     debug('label: ' + labels[i].getName())
     if (labels[i].getName() == label)
@@ -39,7 +39,7 @@ function userHasLabel (label) {
 }
 
 function createLabel (label) {
-  var label = serviceCreateLabel(label)
+  var label = GmailApp.createLabel(label)
 
   if (label) {
     debug('New label created successfully')
@@ -52,10 +52,11 @@ function createLabel (label) {
 }
 
 function deleteLabel (label) {
-  var label = serviceDeleteLabel(label)
+  var userLabel         = GmailApp.getUserLabelByName(labelName)
+  var deleteLabelResult = GmailApp.deleteLabel(userLabel)
 
-  if (label) {
-    debug('label deleted successfully')
+  if (deleteLabelResult) {
+    debug('Label deleted successfully.')
     return true
   } else {
     debug('Error deleting label!')
@@ -81,7 +82,7 @@ function deleteTimerChildLabel (label) {
 }
 
 function getUserChildLabels (label) {
-  labels = serviceGetUserLabels()
+  labels = GmailApp.getUserLabels()
   var childLabels = []
   for (var i = 0; i < labels.length; i++) {
     if (labels[i].getName().indexOf(label + '/') === 0) {

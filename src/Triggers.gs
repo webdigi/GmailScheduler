@@ -35,7 +35,7 @@ function processTimer () {
   debug('processTimer Activated ' + new Date().toString())
 
   var queueLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL
-  var queueLabelObject = serviceGetUserLabelByName(queueLabel)
+  var queueLabelObject = GmailApp.getUserLabelByName(queueLabel)
   var timerChildLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
 
   for (var i = 0; i < timerChildLabels.length; i++) {
@@ -48,7 +48,7 @@ function processTimer () {
 
     var queueChildLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL + '/' + date.full()
 
-    timerChildLabelObject = serviceGetUserLabelByName(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL + '/' + timerChildLabels[i])
+    timerChildLabelObject = GmailApp.getUserLabelByName(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL + '/' + timerChildLabels[i])
     page = null
 
     // Get threads in "pages" of 100 at a time
@@ -56,7 +56,7 @@ function processTimer () {
       page = timerChildLabelObject.getThreads(0, 100)
       if (page.length > 0) {
         createLabel(queueChildLabel)
-        queueChildLabelObject = serviceGetUserLabelByName(queueChildLabel)
+        queueChildLabelObject = GmailApp.getUserLabelByName(queueChildLabel)
 
         if (queueChildLabelObject) {
           queueLabelObject.addToThreads(page)
@@ -77,7 +77,7 @@ function processQueue () {
   var userPrefs = getUserPrefs(false)
 
   var queueLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL
-  var queueLabelObject = serviceGetUserLabelByName(queueLabel)
+  var queueLabelObject = GmailApp.getUserLabelByName(queueLabel)
   var queueChildLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL)
   for (var i = 0; i < queueChildLabels.length; i++) {
     var currentDate = convertToUserDate(new Date())
@@ -90,7 +90,7 @@ function processQueue () {
     }
 
     var queueChildLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL + '/' + queueChildLabels[i]
-    var queueChildLabelObject = serviceGetUserLabelByName(queueChildLabel)
+    var queueChildLabelObject = GmailApp.getUserLabelByName(queueChildLabel)
     var threads = queueChildLabelObject.getThreads()
 
     // Remove queue child label if nothing to process
@@ -157,7 +157,7 @@ function processSms () {
   }
 
   var smsLabel = SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL + '/' + SCHEDULER_SMS_LABEL
-  var smsLabelObject = serviceGetUserLabelByName(smsLabel)
+  var smsLabelObject = GmailApp.getUserLabelByName(smsLabel)
   var smsLabelThreads = smsLabelObject.getThreads()
   var now = new Date().getTime()
   for (i in smsLabelThreads) {

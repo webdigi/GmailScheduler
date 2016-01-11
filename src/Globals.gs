@@ -12,7 +12,6 @@ var SCHEDULER_SMS_LABEL = 'Sms';
 // Use default google calendar to determine user timezone
 var DEFAULT_TIMEZONE = 'default';
 
-
 // Global preferences object
 var USER_PREFS = null;
 
