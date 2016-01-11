@@ -84,7 +84,7 @@ function getUserChildLabels (label) {
   labels = serviceGetUserLabels()
   var childLabels = []
   for (var i = 0; i < labels.length; i++) {
-    if (labels[i].getName().indexOf(label + '/') == 0) {
+    if (labels[i].getName().indexOf(label + '/') === 0) {
       childLabels.push(labels[i].getName().replace(label + '/', ''))
     }
 
