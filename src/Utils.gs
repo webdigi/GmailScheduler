@@ -38,8 +38,8 @@ function userHasLabel (label) {
   return false
 }
 
-function createLabel (label) {
-  var label = GmailApp.createLabel(label)
+function createLabel (labelName) {
+  var label = GmailApp.createLabel(labelName)
 
   if (label) {
     debug('New label created successfully')
@@ -51,7 +51,7 @@ function createLabel (label) {
   }
 }
 
-function deleteLabel (label) {
+function deleteLabel (labelName) {
   var userLabel         = GmailApp.getUserLabelByName(labelName)
   var deleteLabelResult = GmailApp.deleteLabel(userLabel)
 
