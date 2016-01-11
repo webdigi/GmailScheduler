@@ -87,6 +87,9 @@ function dispatchDraft (id) {
     } else {
       return 'Message not found in Drafts'
     }
+
+  // TODO: Remove this error handling, and see what specific errors crop up
+  // so that we can handle them explicitly.
   } catch (e) {
     return e.toString()
   }
