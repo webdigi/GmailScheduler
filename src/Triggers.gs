@@ -39,9 +39,10 @@ function processTimer () {
   var timerChildLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
 
   for (var i = 0; i < timerChildLabels.length; i++) {
-    var timerChildLabelObject, queueLabelObject, page
+    var timerChildLabelObject, page
     var date = parseDate(timerChildLabels[i])
-    if (date == null) {
+
+    if (date === null) {
       continue
     }
 
