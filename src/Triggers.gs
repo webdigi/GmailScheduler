@@ -94,7 +94,7 @@ function processQueue () {
     var threads = queueChildLabelObject.getThreads()
 
     // Remove queue child label if nothing to process
-    if (threads.length == 0) {
+    if (threads.length === 0) {
       deleteLabel(queueChildLabel)
     }
 
