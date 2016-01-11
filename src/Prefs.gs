@@ -50,7 +50,7 @@ function loadPrefsForForm () {
     prefs['timer'] = timerLabels
   }
 
-  for (default_prop in DEFAULT_PREFS) {
+  for (var default_prop in DEFAULT_PREFS) {
     if (prefs[default_prop] === undefined) {
       prefs[default_prop] = DEFAULT_PREFS[default_prop]
 
