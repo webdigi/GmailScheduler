@@ -82,6 +82,7 @@ function dispatchDraft(id) {
         htmlBody    : body,
         replyTo     : message.getReplyTo(),
         inlineImages: inlineImages,
+        name        : message.getFrom().match(/[^<]*/)[0].trim(),
         attachments : message.getAttachments()
       }
       
