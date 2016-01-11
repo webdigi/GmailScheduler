@@ -144,9 +144,7 @@ function moveDraftsToInbox () {
       // Move to these drafts to inbox
       drafts[i].getThread().moveToInbox()
     }
-
   }
-
 }
 
 function processSms () {
