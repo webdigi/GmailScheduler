@@ -22,7 +22,7 @@ function sendWelcomeEmail () {
   if (!userPrefs['email_welcome_sent']) {
     GmailApp.sendEmail(getActiveUserEmail(), EMAIL_WELCOME_SUBJECT, body, options)
     userPrefs['email_welcome_sent'] = true
-    UserProperties.setProperties(userPrefs, true)
+    PropertiesService.getUserProperties().setProperties(userPrefs, true)
   }
 }
 
