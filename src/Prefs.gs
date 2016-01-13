@@ -21,7 +21,6 @@ function getUserPrefs (force_reload) {
   if (USER_PREFS === null || force_reload) {
     debug('User preferences object empty.. reloading..')
     USER_PREFS = new Prefs()
-
   }
   return USER_PREFS
 }
