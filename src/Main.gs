@@ -5,7 +5,6 @@ function setupStaticLabels () {
 
   // Extras
   GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL)
-  GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL + '/' + SCHEDULER_SMS_LABEL)
 }
 
 function sendWelcomeEmail () {

@@ -16,11 +16,6 @@ function createTriggers () {
     .timeBased()
     .everyMinutes(1)
     .create()
-
-  var smsTrigger = ScriptApp.newTrigger('processSms')
-    .timeBased()
-    .everyMinutes(1)
-    .create()
 }
 
 function deleteTriggers () {
@@ -136,33 +131,7 @@ function moveDraftsToInbox () {
   }
 
   var drafts = GmailApp.getDraftMessages()
-
   for (var i = 0; i < drafts.length; i++) {
-    if (drafts[i].getSubject().match(/inbox0/)) {
-      // BONUS: If draft emails have subject inbox0 in them, then do not return those to inbox.
-    } else {
-      // Move to these drafts to inbox
-      drafts[i].getThread().moveToInbox()
-    }
+    drafts[i].getThread().moveToInbox()
   }
-}
-
-function processSms () {
-  var userPrefs = getUserPrefs(false)
-
-  if (!userPrefs['send_message_sms']) {
-    return
-  }
-
-  var smsLabel = SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL + '/' + SCHEDULER_SMS_LABEL
-  var smsLabelObject = GmailApp.getUserLabelByName(smsLabel)
-  var smsLabelThreads = smsLabelObject.getThreads()
-  var now = new Date().getTime()
-  for (i in smsLabelThreads) {
-    CalendarApp.createEvent('IMP- ' + smsLabelThreads[0].getFirstMessageSubject(),
-      new Date(now + 60000),
-      new Date(now + 60000))
-    CalendarApp.createEvent('IMP- ' + smsLabelThreads[0].getFirstMessageSubject(), new Date(now + 60000), new Date(now + 60000)).addSmsReminder(0)
-  }
-  smsLabelObject.removeFromThreads(smsLabelThreads)
 }
