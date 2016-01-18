@@ -23,7 +23,6 @@
     }
 
     function validate () {
-      debug('Starting validation check.')
       return true
     }
 
@@ -43,7 +42,6 @@
     }
 
     function restorePrefsHandler (prefs_object) {
-      debug('Restoring preferences')
       getHandlers().setupStaticLabels()
 
       // set timezone in display
@@ -63,7 +61,6 @@
         var element = document.getElementById(id_name)
 
         if (element) {
-          debug('    Found as a text box. id:' + element.id + ' value: ' + prefs_object[id_name])
           element.value = prefs_object[id_name]
           continue
         }
@@ -73,11 +70,9 @@
         element = document.getElementById(id_name + '_' + prefs_object[id_name])
 
         if (element) {
-          debug('    Found as a checked box. id:' + element.id + ' value: checked')
           element.checked = true
           continue
         }
-        warn('Could not find element with name: ' + id_name)
       }
 
       showLoadingMessage(false)
@@ -155,8 +150,6 @@
     }
 
     function init () {
-      debug('Starting init')
-
       google.script.run.withSuccessHandler(showAlert).withFailureHandler(showError).sendWelcomeEmail()
       google.script.run.withSuccessHandler(restorePrefsHandler).withFailureHandler(showError).getPrefs()
       getHandlers().createTriggers()
@@ -189,20 +182,7 @@
             timerLabelDateString.classList.add('bg-danger')
           }
         }).withFailureHandler(showError).parseDateFormat(timerLabelInput.value)
-
       }
-
-    }
-    function debug (msg) {
-      console.log(msg)
-    }
-
-    function warn (msg) {
-      console.warn(msg)
-    }
-
-    function error (msg) {
-      console.error(msg)
     }
     </script>
     <head>
