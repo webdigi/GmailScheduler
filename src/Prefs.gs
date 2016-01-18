@@ -19,23 +19,15 @@ function Prefs () {
 
 function getUserPrefs (force_reload) {
   if (USER_PREFS === null || force_reload) {
-    debug('User preferences object empty.. reloading..')
     USER_PREFS = new Prefs()
   }
   return USER_PREFS
 }
 
 function savePrefsFromForm (form_object) {
-  debug('Saving preferences from form object which contains: ')
-
-  for (var prop in form_object)
-    debug(' - ' + prop + ' => ' + form_object[prop])
-
   PropertiesService.getUserProperties().setProperties(form_object, true)
 
   var prefs = getUserPrefs(true)
-
-  debug('Refreshed preference object now contains:')
 
   var message = 'Saved new preferences.'
 
@@ -52,8 +44,6 @@ function loadPrefsForForm () {
   for (var default_prop in DEFAULT_PREFS) {
     if (prefs[default_prop] === undefined) {
       prefs[default_prop] = DEFAULT_PREFS[default_prop]
-
-      debug('Loading default property for key:' + default_prop + ' value: ' + prefs[default_prop])
     }
   }
 

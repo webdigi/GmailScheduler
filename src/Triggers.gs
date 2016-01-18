@@ -16,11 +16,6 @@ function createTriggers () {
     .timeBased()
     .everyMinutes(1)
     .create()
-
-  var smsTrigger = ScriptApp.newTrigger('processSms')
-    .timeBased()
-    .everyMinutes(1)
-    .create()
 }
 
 function deleteTriggers () {
@@ -32,15 +27,14 @@ function deleteTriggers () {
 }
 
 function processTimer () {
-  debug('processTimer Activated ' + new Date().toString())
-
   var queueLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL
   var queueLabelObject = GmailApp.getUserLabelByName(queueLabel)
   var timerChildLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
 
   for (var i = 0; i < timerChildLabels.length; i++) {
-    var timerChildLabelObject, page
+    var timerChildLabelObject
     var date = parseDate(timerChildLabels[i])
+    var page = null
 
     if (date === null) {
       continue
@@ -49,7 +43,6 @@ function processTimer () {
     var queueChildLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL + '/' + date.full()
 
     timerChildLabelObject = GmailApp.getUserLabelByName(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL + '/' + timerChildLabels[i])
-    page = null
 
     // Get threads in "pages" of 100 at a time
     while(!page || page.length == 100) {
@@ -62,30 +55,26 @@ function processTimer () {
           queueLabelObject.addToThreads(page)
           // Move the threads into queueChildLabel
           queueChildLabelObject.addToThreads(page)
-
         }
         // Move the threads out of timerLabel
         timerChildLabelObject.removeFromThreads(page)
       }
     }
-
   }
 }
 
 function processQueue () {
-  debug('processQueue Activated ' + new Date().toString())
   var userPrefs = getUserPrefs(false)
-
   var queueLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL
   var queueLabelObject = GmailApp.getUserLabelByName(queueLabel)
   var queueChildLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL)
+
   for (var i = 0; i < queueChildLabels.length; i++) {
     var currentDate = convertToUserDate(new Date())
     var queueChildDate = parseDate(queueChildLabels[i])
 
     // skip if queuedatetime is not ready to process
     if (currentDate.getTime() < queueChildDate.getTime()) {
-      debug('process later')
       continue
     }
 
@@ -110,9 +99,7 @@ function processQueue () {
           sentMessage.removeLabel(queueLabelObject)
           sentMessage.removeLabel(queueChildLabelObject)
           sentMessage.moveToInbox()
-
         }
-
       } else {
         thread.removeLabel(queueLabelObject)
         thread.removeLabel(queueChildLabelObject)
@@ -121,10 +108,8 @@ function processQueue () {
         if (userPrefs['mark_sent_messages_inbox_unread']) {
           GmailApp.markMessageUnread(message)
         }
-
       }
     }
-
   }
 }
 
@@ -136,33 +121,7 @@ function moveDraftsToInbox () {
   }
 
   var drafts = GmailApp.getDraftMessages()
-
   for (var i = 0; i < drafts.length; i++) {
-    if (drafts[i].getSubject().match(/inbox0/)) {
-      // BONUS: If draft emails have subject inbox0 in them, then do not return those to inbox.
-    } else {
-      // Move to these drafts to inbox
-      drafts[i].getThread().moveToInbox()
-    }
+    drafts[i].getThread().moveToInbox()
   }
-}
-
-function processSms () {
-  var userPrefs = getUserPrefs(false)
-
-  if (!userPrefs['send_message_sms']) {
-    return
-  }
-
-  var smsLabel = SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL + '/' + SCHEDULER_SMS_LABEL
-  var smsLabelObject = GmailApp.getUserLabelByName(smsLabel)
-  var smsLabelThreads = smsLabelObject.getThreads()
-  var now = new Date().getTime()
-  for (i in smsLabelThreads) {
-    CalendarApp.createEvent('IMP- ' + smsLabelThreads[0].getFirstMessageSubject(),
-      new Date(now + 60000),
-      new Date(now + 60000))
-    CalendarApp.createEvent('IMP- ' + smsLabelThreads[0].getFirstMessageSubject(), new Date(now + 60000), new Date(now + 60000)).addSmsReminder(0)
-  }
-  smsLabelObject.removeFromThreads(smsLabelThreads)
 }

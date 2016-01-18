@@ -5,10 +5,10 @@ function setupStaticLabels () {
 
   // Extras
   GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL)
-  GmailApp.createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_EXTRAS_LABEL + '/' + SCHEDULER_SMS_LABEL)
 }
 
 function sendWelcomeEmail () {
+  var userPrefs = getUserPrefs(false)
   var body = 'Hi there,'
   body += '<p>Thanks for trying out the GmailScheduler. This is a free, secure, private (data is held only within your gmail account &amp; your google app script) and convenient method to schedule outgoing messages and return messages to your inbox.</p>'
   body += '<p>GmailScheduler is an open-source project. Please submit tickets for any issues that you find to the <a href="https://github.com/webdigi/GmailScheduler/issues">issue tracker</a>.</p>'
@@ -17,7 +17,6 @@ function sendWelcomeEmail () {
     htmlBody: body
   }
 
-  var userPrefs = getUserPrefs(false)
   if (!userPrefs['email_welcome_sent']) {
     GmailApp.sendEmail(getActiveUserEmail(), EMAIL_WELCOME_SUBJECT, body, options)
     userPrefs['email_welcome_sent'] = true

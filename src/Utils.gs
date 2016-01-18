@@ -2,11 +2,8 @@ function getTimeZoneString () {
   var userPrefs = getUserPrefs()
   var timezone_string = userPrefs['localzone']
 
-  debug('User timezone:' + timezone_string)
-
   if (timezone_string == DEFAULT_TIMEZONE) {
     timezone_string = CalendarApp.getDefaultCalendar().getTimeZone()
-    debug('Loading timezone from calendar: ' + timezone_string)
   }
 
   return timezone_string
@@ -16,7 +13,6 @@ function convertToUserDate (date) {
   var user_timezone_string = getTimeZoneString()
   var user_date_string = Utilities.formatDate(date, user_timezone_string, 'yyyy/MM/dd HH:mm:ss')
   var user_date = new Date(user_date_string)
-  debug('Converted:' + date + ' to user time:' + user_date)
   return user_date
 }
 
@@ -31,7 +27,6 @@ function getActiveUserEmail () {
 function userHasLabel (label) {
   labels = GmailApp.getUserLabels()
   for (var i = 0; i < labels.length; i++) {
-    debug('label: ' + labels[i].getName())
     if (labels[i].getName() == label)
       return true
   }
@@ -42,11 +37,8 @@ function createLabel (labelName) {
   var label = GmailApp.createLabel(labelName)
 
   if (label) {
-    debug('New label created successfully')
     return true
   } else {
-    // receipts.push(' Error trying to create a new label: "' + label + '". Cannot continue.  :-(')
-    debug('Error creating label!')
     return false
   }
 }
@@ -56,10 +48,8 @@ function deleteLabel (labelName) {
   var deleteLabelResult = GmailApp.deleteLabel(userLabel)
 
   if (deleteLabelResult) {
-    debug('Label deleted successfully.')
     return true
   } else {
-    debug('Error deleting label!')
     return false
   }
 }
@@ -70,7 +60,6 @@ function createTimerChildLabels (labels) {
   }
 
   return true
-
 }
 
 function createTimerChildLabel (label) {
@@ -88,8 +77,8 @@ function getUserChildLabels (label) {
     if (labels[i].getName().indexOf(label + '/') === 0) {
       childLabels.push(labels[i].getName().replace(label + '/', ''))
     }
-
   }
+
   return childLabels
 }
 
@@ -108,10 +97,6 @@ function parseDateFormat (str) {
   }
 
   return null
-}
-
-function debug (msg) {
-  Logger.log(msg)
 }
 
 function dateConversionRequired (str) {

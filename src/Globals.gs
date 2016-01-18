@@ -7,7 +7,6 @@ var SCHEDULER_LABEL = 'GScheduler';
 var SCHEDULER_TIMER_LABEL = 'Timer';
 var SCHEDULER_QUEUE_LABEL = 'Queue';
 var SCHEDULER_EXTRAS_LABEL = 'Extras';
-var SCHEDULER_SMS_LABEL = 'Sms';
 
 // Use default google calendar to determine user timezone
 var DEFAULT_TIMEZONE = 'default';
@@ -30,7 +29,6 @@ var DEFAULT_PREFS = {
   move_sent_messages_inbox:        true,
   mark_sent_messages_inbox_unread: false,
   nolabel_drafs_to_inbox:          false,
-  send_message_sms:                false,
   localzone:                       'default',
   timer:                           [ '1 hour later',
                                      '2 hours later',
