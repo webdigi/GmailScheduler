@@ -19,6 +19,9 @@ var EXECUTE_COMMAND_LOGGING = false;
 // Retry logic
 var NUM_RETRIES = 10;
 
+// Log spreadsheet
+var GMAILSCHEDULER_LOG_FILE_NAME = 'GmailScheduler Log File';
+
 //Welcome Email Subject
 var EMAIL_WELCOME_SUBJECT = 'Welcome to GmailScheduler';
 

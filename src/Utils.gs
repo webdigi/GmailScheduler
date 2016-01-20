@@ -33,6 +33,20 @@ function userHasLabel (label) {
   return false
 }
 
+function createOrOpenLogFile(){
+    var file = getFileIterator()
+    if(file.hasNext()){
+       return SpreadsheetApp.open(file.next())
+    } else {
+       return SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
+    }
+}
+
+function getFileIterator(){
+    var file = DriveApp.searchFiles('title contains "' + GMAILSCHEDULER_LOG_FILE_NAME + '"');
+    return file
+}
+
 function createLabel (labelName) {
   var label = GmailApp.createLabel(labelName)
 
@@ -108,4 +122,11 @@ function dateConversionRequired (str) {
     }
   }
   return false
+}
+
+function logMessage(message){
+    var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString()]
+    var spreadsheet = createOrOpenLogFile()
+    var sheet = spreadsheet.getSheets()[0]
+    sheet.appendRow(row)
 }
