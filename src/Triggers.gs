@@ -55,12 +55,23 @@ function processTimer () {
           queueLabelObject.addToThreads(page)
           // Move the threads into queueChildLabel
           queueChildLabelObject.addToThreads(page)
+          markSentMessagesForLabelObjects(queueChildLabelObject)
         }
         // Move the threads out of timerLabel
         timerChildLabelObject.removeFromThreads(page)
       }
     }
   }
+}
+
+function markSentMessagesForLabelObjects(label){
+    var threads = label.getThreads()
+    for (var i = 0; i < threads.length; i++) {
+        var messages =  threads[i].getMessages()
+        for (var i = 0; i < messages.length; i++) {
+           logScheduledMessage(messages[i])
+        }
+    }
 }
 
 function processQueue () {

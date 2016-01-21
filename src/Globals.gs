@@ -21,7 +21,7 @@ var NUM_RETRIES = 10;
 
 // Log spreadsheet
 var GMAILSCHEDULER_LOG_FILE_NAME = 'GmailScheduler Log File';
-var LOG_FILE_HEADERS = ['Message ID', 'Message To', 'Message Subject', 'Time'];
+var LOG_FILE_HEADERS = ['Message ID', 'Message To', 'Message Subject', 'Time', 'Status'];
 
 //Welcome Email Subject
 var EMAIL_WELCOME_SUBJECT = 'Welcome to GmailScheduler';

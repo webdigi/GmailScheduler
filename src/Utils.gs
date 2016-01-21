@@ -138,15 +138,19 @@ function dateConversionRequired (str) {
   return false
 }
 
-function logMessage(message){
-    var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString()]
+function logScheduledMessage(message){
+    var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
     var spreadsheet = createOrOpenLogFile()
     var sheet = spreadsheet.getSheets()[0]
     sheet.appendRow(row)
 }
 
+function logSentMessage(message){
+    var messageId = message.getId()
+}
+
 function colorHeaderLogFile(sheet){
-    var range = sheet.getRange(1,1,1,4)
+    var range = sheet.getRange(1,1,1,5)
     range.setBackground('#B7D6DD')
     range.setFontWeight('bold')
 }
