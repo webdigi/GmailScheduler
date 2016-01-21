@@ -34,12 +34,20 @@ function userHasLabel (label) {
 }
 
 function createOrOpenLogFile(){
-    var file = getFileIterator()
-    if(file.hasNext()){
-       return SpreadsheetApp.open(file.next())
+    var fileIterator = getFileIterator()
+    var file
+    if(fileIterator.hasNext()){
+       file = SpreadsheetApp.open(fileIterator.next())
     } else {
-       return SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
+       file = SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
+       createHeadersForLogFile(file)
     }
+    return file
+}
+
+function createHeadersForLogFile(spreadsheet){
+    var sheet = spreadsheet.getSheets()[0]
+    sheet.appendRow(LOG_FILE_HEADERS)
 }
 
 function getFileIterator(){
