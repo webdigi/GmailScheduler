@@ -39,9 +39,15 @@ function createOrOpenLogFile(){
     if(fileIterator.hasNext()){
        file = SpreadsheetApp.open(fileIterator.next())
     } else {
-       file = SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
-       createHeadersForLogFile(file)
+       file = createFile()
     }
+    return file
+}
+
+function createFile(){
+    var file = SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
+    createHeadersForLogFile(file)
+    colorHeaderLogFile(file.getSheets()[0])
     return file
 }
 
@@ -137,4 +143,10 @@ function logMessage(message){
     var spreadsheet = createOrOpenLogFile()
     var sheet = spreadsheet.getSheets()[0]
     sheet.appendRow(row)
+}
+
+function colorHeaderLogFile(sheet){
+    var range = sheet.getRange(1,1,1,4)
+    range.setBackground('#B7D6DD')
+    range.setFontWeight('bold')
 }
