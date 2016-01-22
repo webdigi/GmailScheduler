@@ -35,13 +35,10 @@ function userHasLabel (label) {
 
 function createOrOpenLogFile(){
     var fileIterator = getFileIterator()
-    var file
     if(fileIterator.hasNext()){
-       file = SpreadsheetApp.open(fileIterator.next())
-    } else {
-       file = createFile()
+       return SpreadsheetApp.open(fileIterator.next())
     }
-    return file
+    return createFile()
 }
 
 function createFile(){
@@ -57,8 +54,7 @@ function createHeadersForLogFile(spreadsheet){
 }
 
 function getFileIterator(){
-    var file = DriveApp.searchFiles('title contains "' + GMAILSCHEDULER_LOG_FILE_NAME + '"');
-    return file
+    return DriveApp.searchFiles('title contains "' + GMAILSCHEDULER_LOG_FILE_NAME + '"')
 }
 
 function createLabel (labelName) {
@@ -145,10 +141,6 @@ function logScheduledMessage(message){
     sheet.appendRow(row)
 }
 
-function logSentMessage(message){
-    var messageId = message.getId()
-}
-
 function colorHeaderLogFile(sheet){
     var range = sheet.getRange(1,1,1,5)
     range.setBackground('#B7D6DD')
@@ -161,8 +153,7 @@ function logMessageAsSent(messageId){
     var range = sheet.getDataRange()
     var row = getRowByMessageId(messageId, range)
     if (row > 0){
-        var statusCell = sheet.getRange(row, 5)
-        statusCell.setValue('Sent')
+        sheet.getRange(row, 5).setValue('Sent')
     } else {
         Logger.log('Message not found')
     }
@@ -170,11 +161,10 @@ function logMessageAsSent(messageId){
 
 function getRowByMessageId(messageId, range){
    var values = range.getValues()
-   var row = -1
    for (var i = 0; i < values.length; i++){
        if (values[i][0] === messageId) {
-            var row = i + 1
+            return i + 1
        }
    }
-   return row
+   return -1
 }
