@@ -42,6 +42,7 @@ function dispatchDraft (messageId) {
       }
 
       GmailApp.sendEmail(message.getTo(), message.getSubject(), body, options)
+      logMessageAsSent(messageId)
       message.moveToTrash()
       return 'Delivered'
     } else {

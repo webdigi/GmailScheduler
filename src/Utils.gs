@@ -154,3 +154,27 @@ function colorHeaderLogFile(sheet){
     range.setBackground('#B7D6DD')
     range.setFontWeight('bold')
 }
+
+function logMessageAsSent(messageId){
+    var spreadsheet = createOrOpenLogFile()
+    var sheet = spreadsheet.getSheets()[0]
+    var range = sheet.getDataRange()
+    var row = getRowByMessageId(messageId, range)
+    if (row > 0){
+        var statusCell = sheet.getRange(row, 5)
+        statusCell.setValue('Sent')
+    } else {
+        Logger.log('Message not found')
+    }
+}
+
+function getRowByMessageId(messageId, range){
+   var values = range.getValues()
+   var row = -1
+   for (var i = 0; i < values.length; i++){
+       if (values[i][0] === messageId) {
+            var row = i + 1
+       }
+   }
+   return row
+}
