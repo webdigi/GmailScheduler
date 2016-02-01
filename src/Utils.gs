@@ -33,12 +33,14 @@ function userHasLabel (label) {
   return false
 }
 
-function createOrOpenLogFile(){
+function getLogSpreadsheet(){
     var fileIterator = getFileIterator()
+
     if(fileIterator.hasNext()){
        return SpreadsheetApp.open(fileIterator.next())
+    } else {
+       return createFile()
     }
-    return createFile()
 }
 
 function createFile(){
@@ -116,6 +118,7 @@ function parseDate (str) {
 
 function parseDateFormat (str) {
   var date = Date.future(str)
+
   if (date.isValid() && date.isFuture()) {
     return convertToUserDate(date).full()
   }
@@ -127,6 +130,7 @@ function dateConversionRequired (str) {
   var substrings = ['year', 'month', 'week', ' day', 'hour', 'minute', 'second']
   for (var i = 0; i != substrings.length; i++) {
     var substring = substrings[i]
+
     if (str.indexOf(substring) != - 1) {
       return true
     }
@@ -136,7 +140,7 @@ function dateConversionRequired (str) {
 
 function logScheduledMessage(message){
     var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
-    var spreadsheet = createOrOpenLogFile()
+    var spreadsheet = getLogSpreadsheet()
     var sheet = spreadsheet.getSheets()[0]
     sheet.appendRow(row)
 }
@@ -148,14 +152,15 @@ function colorHeaderLogFile(sheet){
 }
 
 function logMessageAsSent(messageId){
-    var spreadsheet = createOrOpenLogFile()
+    var spreadsheet = getLogSpreadsheet()
     var sheet = spreadsheet.getSheets()[0]
     var range = sheet.getDataRange()
     var row = getRowByMessageId(messageId, range)
+
     if (row > 0){
         sheet.getRange(row, 5).setValue('Sent')
     } else {
-        Logger.log('Message not found')
+        Logger.log('Message ' + messageId + 'not found')
     }
 }
 
