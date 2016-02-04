@@ -34,7 +34,7 @@ function userHasLabel (label) {
 }
 
 function getLogSpreadsheet(){
-    var fileIterator = getFileIterator()
+    var fileIterator = DriveApp.searchFiles('title contains "' + GMAILSCHEDULER_LOG_FILE_NAME + '"')
 
     if(fileIterator.hasNext()){
        return SpreadsheetApp.open(fileIterator.next())
@@ -44,19 +44,24 @@ function getLogSpreadsheet(){
 }
 
 function createFile(){
-    var file = SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
-    createHeadersForLogFile(file)
-    colorHeaderLogFile(file.getSheets()[0])
-    return file
+    var spreadsheet = SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
+    var sheet = spreadsheet.insertSheet(GMAILSCHEDULER_LOG_SHEET_NAME, 0);
+    writeHeaders(sheet)
+    addColorHeaders(sheet)
+    return spreadsheet
 }
 
-function createHeadersForLogFile(spreadsheet){
-    var sheet = spreadsheet.getSheets()[0]
+function writeHeaders(sheet){
+    sheet.getRange(1,1,1,5).merge()
+    sheet.appendRow(['THIS FILE IS AUTOMATICALLY UPDATED - DO NOT MAKE MANUAL MODIFICATIONS.'])
     sheet.appendRow(LOG_FILE_HEADERS)
 }
 
-function getFileIterator(){
-    return DriveApp.searchFiles('title contains "' + GMAILSCHEDULER_LOG_FILE_NAME + '"')
+function addColorHeaders(sheet){
+    var range = sheet.getRange(2,1,1,5)
+    var beauBlue = '#BCD4E6'
+    range.setBackground(beauBlue)
+    range.setFontWeight('bold')
 }
 
 function createLabel (labelName) {
@@ -138,29 +143,26 @@ function dateConversionRequired (str) {
   return false
 }
 
-function logScheduledMessage(message){
-    var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
+function getSheetFromLogFile(){
     var spreadsheet = getLogSpreadsheet()
-    var sheet = spreadsheet.getSheets()[0]
+    return spreadsheet.getSheetByName(GMAILSCHEDULER_LOG_SHEET_NAME)
+}
+
+function logScheduledMessage(message){
+    var sheet = getSheetFromLogFile()
+    var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
     sheet.appendRow(row)
 }
 
-function colorHeaderLogFile(sheet){
-    var range = sheet.getRange(1,1,1,5)
-    range.setBackground('#B7D6DD')
-    range.setFontWeight('bold')
-}
-
 function logMessageAsSent(messageId){
-    var spreadsheet = getLogSpreadsheet()
-    var sheet = spreadsheet.getSheets()[0]
+    var sheet = getSheetFromLogFile()
     var range = sheet.getDataRange()
     var row = getRowByMessageId(messageId, range)
 
     if (row > 0){
         sheet.getRange(row, 5).setValue('Sent')
     } else {
-        Logger.log('Message ' + messageId + 'not found')
+        throw 'Message not found'
     }
 }
 

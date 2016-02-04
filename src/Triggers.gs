@@ -100,9 +100,11 @@ function processQueue () {
 
     for (var x in threads) {
       var thread = threads[x]
-      var message = GmailApp.getMessageById(threads[x].getMessages()[0].getId())
+      var messageId = threads[x].getMessages()[0].getId()
+      var message = GmailApp.getMessageById(messageId)
       if (message.isDraft()) {
-        dispatchDraft(threads[x].getMessages()[0].getId())
+        dispatchDraft(messageId)
+        logMessageAsSent(messageId)
 
         // move sent message to inbox
         if (userPrefs['move_sent_messages_inbox']) {
