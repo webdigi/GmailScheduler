@@ -33,6 +33,37 @@ function userHasLabel (label) {
   return false
 }
 
+function getLogSpreadsheet(){
+    var fileIterator = DriveApp.searchFiles('title contains "' + GMAILSCHEDULER_LOG_FILE_NAME + '"')
+
+    if(fileIterator.hasNext()){
+       return SpreadsheetApp.open(fileIterator.next())
+    } else {
+       return createFile()
+    }
+}
+
+function createFile(){
+    var spreadsheet = SpreadsheetApp.create(GMAILSCHEDULER_LOG_FILE_NAME)
+    var sheet = spreadsheet.insertSheet(GMAILSCHEDULER_LOG_SHEET_NAME, 0);
+    writeHeaders(sheet)
+    addColorHeaders(sheet)
+    return spreadsheet
+}
+
+function writeHeaders(sheet){
+    sheet.getRange(1,1,1,5).merge()
+    sheet.appendRow(['THIS FILE IS AUTOMATICALLY UPDATED - DO NOT MAKE MANUAL MODIFICATIONS.'])
+    sheet.appendRow(LOG_FILE_HEADERS)
+}
+
+function addColorHeaders(sheet){
+    var range = sheet.getRange(2,1,1,5)
+    var beauBlue = '#BCD4E6'
+    range.setBackground(beauBlue)
+    range.setFontWeight('bold')
+}
+
 function createLabel (labelName) {
   var label = GmailApp.createLabel(labelName)
 
@@ -92,6 +123,7 @@ function parseDate (str) {
 
 function parseDateFormat (str) {
   var date = Date.future(str)
+
   if (date.isValid() && date.isFuture()) {
     return convertToUserDate(date).full()
   }
@@ -103,9 +135,43 @@ function dateConversionRequired (str) {
   var substrings = ['year', 'month', 'week', ' day', 'hour', 'minute', 'second']
   for (var i = 0; i != substrings.length; i++) {
     var substring = substrings[i]
+
     if (str.indexOf(substring) != - 1) {
       return true
     }
   }
   return false
+}
+
+function getSheetFromLogFile(){
+    var spreadsheet = getLogSpreadsheet()
+    return spreadsheet.getSheetByName(GMAILSCHEDULER_LOG_SHEET_NAME)
+}
+
+function logScheduledMessage(message){
+    var sheet = getSheetFromLogFile()
+    var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
+    sheet.appendRow(row)
+}
+
+function logMessageAsSent(messageId){
+    var sheet = getSheetFromLogFile()
+    var range = sheet.getDataRange()
+    var row = getRowByMessageId(messageId, range)
+
+    if (row > 0){
+        sheet.getRange(row, 5).setValue('Sent')
+    } else {
+        throw 'Message not found'
+    }
+}
+
+function getRowByMessageId(messageId, range){
+   var values = range.getValues()
+   for (var i = 0; i < values.length; i++){
+       if (values[i][0] === messageId) {
+            return i + 1
+       }
+   }
+   return -1
 }

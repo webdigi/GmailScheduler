@@ -55,12 +55,23 @@ function processTimer () {
           queueLabelObject.addToThreads(page)
           // Move the threads into queueChildLabel
           queueChildLabelObject.addToThreads(page)
+          markSentMessagesForLabelObjects(queueChildLabelObject)
         }
         // Move the threads out of timerLabel
         timerChildLabelObject.removeFromThreads(page)
       }
     }
   }
+}
+
+function markSentMessagesForLabelObjects(label){
+    var threads = label.getThreads()
+    for (var i = 0; i < threads.length; i++) {
+        var messages =  threads[i].getMessages()
+        for (var i = 0; i < messages.length; i++) {
+           logScheduledMessage(messages[i])
+        }
+    }
 }
 
 function processQueue () {
@@ -89,9 +100,11 @@ function processQueue () {
 
     for (var x in threads) {
       var thread = threads[x]
-      var message = GmailApp.getMessageById(threads[x].getMessages()[0].getId())
+      var messageId = threads[x].getMessages()[0].getId()
+      var message = GmailApp.getMessageById(messageId)
       if (message.isDraft()) {
-        dispatchDraft(threads[x].getMessages()[0].getId())
+        dispatchDraft(messageId)
+        logMessageAsSent(messageId)
 
         // move sent message to inbox
         if (userPrefs['move_sent_messages_inbox']) {
