@@ -171,7 +171,7 @@
         google.script.run.withSuccessHandler(function (dateString) {
           if (!isEmpty(dateString)) {
             timerLabelValid = true
-            document.getElementById('timerLabelDateString').innerHTML = 'The label &ldquo;' + timerLabelInput.value + '&rdquo; would trigger the email on &ldquo;' + dateString + '&rdquo;. Please click &ldquo;Add&rdquo; to create this label.'
+            document.getElementById('timerLabelDateString').innerHTML = 'The label &ldquo;' + timerLabelInput.value + '&rdquo; would trigger the email on ' + dateString + '. Please click &ldquo;Add&rdquo; to create this label.'
             timerLabelInput.parentNode.classList.remove('has-error')
             timerLabelInput.parentNode.classList.add('has-success')
 
