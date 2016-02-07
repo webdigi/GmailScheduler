@@ -167,7 +167,7 @@
         google.script.run.withSuccessHandler(function (dateString) {
           if (dateString != null) {
             timerLabelValid = true
-            document.getElementById('timerLabelDateString').innerHTML = 'The label ' + timerLabelInput.value + ' would trigger the email on ' + dateString + '. Please click Add to create this label.'
+            document.getElementById('timerLabelDateString').innerHTML = 'The label &ldquo;' + timerLabelInput.value + '&rdquo; would trigger the email on &ldquo;' + dateString + '&rdquo;. Please click &ldquo;Add&rdquo; to create this label.'
             timerLabelInput.parentNode.classList.remove('has-error')
             timerLabelInput.parentNode.classList.add('has-success')
 
@@ -216,7 +216,11 @@
 
               <input type="button"    class="btn btn-primary" name="add_timer_label" value="Add" onclick='if (validateTimerLabel()) addTimerLabel(document.getElementById("new_timer_label").value)'>
                 </div>
-                <span class="bg-success" id="timerLabelDateString"></span>
+
+                <p>
+                  <span class="bg-success" id="timerLabelDateString"></span>
+                </p>
+
                 <p>Examples of labels: <kbd>11:15am tomorrow</kbd> / <kbd>6 hours later</kbd> / <kbd>2 days from now</kbd> / <kbd>next week</kbd> / <kbd>end of this month</kbd>
                     <br/>You can set up as many labels as you like.</p>
                 <hr/>
