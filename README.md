@@ -10,7 +10,7 @@ Now Gmail Scheduler can help you schedule outgoing messages and it can be used w
 - Private - All your emails are private, unlike third party subscription programs that need access to your entire Gmail account with read and write access.
 - 100% free - No ads, No limits (Only standard Gmail outgoing limits apply).
 - Open source - [Link to source https://github.com/webdigi/GmailScheduler](https://github.com/webdigi/GmailScheduler)
-- The app is hosted on Google servers with Google app script.
+- The app is hosted on Google servers with Google Apps Script.
 
 Further, you can help contribute and make it better. Please send us your feedback and any issues can be posted on the [Issue Tracker](https://github.com/webdigi/GmailScheduler/issues)
 

@@ -10,9 +10,9 @@ function setupStaticLabels () {
 function sendWelcomeEmail () {
   var userPrefs = getUserPrefs(false)
   var body = 'Hi there,'
-  body += '<p>Thanks for trying out the GmailScheduler. This is a free, secure, private (data is held only within your Gmail account &amp; your google app script) and convenient method to schedule outgoing messages and return messages to your inbox.</p>'
+  body += '<p>Thanks for trying out the GmailScheduler. This is a free, secure, private (data is held only within your Gmail account &amp; your Google Apps Script) and convenient method to schedule outgoing messages and return messages to your inbox.</p>'
   body += '<p>GmailScheduler is an open-source project. Please submit tickets for any issues that you find to the <a href="https://github.com/webdigi/GmailScheduler/issues">issue tracker</a>.</p>'
-  body += '<p>SETTINGS: Please note that you can use this link to access your settings at any time <a href="' + SETTINGS_URL + '" target="_blank">' + SETTINGS_URL + '</a>.</p>'
+  body += '<p>SETTINGS: Please note that you can use this link to access your settings at any time: <a href="' + SETTINGS_URL + '" target="_blank">' + SETTINGS_URL + '</a>.</p>'
   var options = {
     htmlBody: body
   }
