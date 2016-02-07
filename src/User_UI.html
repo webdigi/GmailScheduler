@@ -127,7 +127,7 @@
       google.script.run.withSuccessHandler(function () {
         addTimerLabelToList(label)
 
-        timerLabelDateString.innerHTML = 'Added GScheduler/Timer/"' + label + '" to your gmail now'
+        timerLabelDateString.innerHTML = 'Added GScheduler/Timer/"' + label + '" to your Gmail now'
         timerLabelInput.value = ''
       }).withFailureHandler(showError).createTimerChildLabel(label)
 
@@ -207,7 +207,7 @@
             <fieldset >
                 <legend><strong>Manage Timer Labels</strong></legend>
                 <div>Labels are the quick and easy way to schedule a message using the Gmail site or the Gmail app on your phone.<br/><br/>
-                To send an email later, all you have to do is create your gmail message as you normally do and then apply a label to it. The draft email will be automatically sent out as scheduled along with all attachments.<br/><br/>
+                To send an email later, all you have to do is create your Gmail message as you normally do and then apply a label to it. The draft email will be automatically sent out as scheduled along with all attachments.<br/><br/>
                 To make a message return to your inbox, simply add a label that corresponds to when you want the message returned to your inbox and then archive the message. The message will return to inbox as scheduled.<br/><br/>
                 A few commonly used labels are already added for you. You can go ahead and create additional labels for delayed delivery periods that you are most likely to use.</div><br/>
                 <div class="form-group">
