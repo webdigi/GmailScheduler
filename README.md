@@ -33,7 +33,7 @@ Accessing your GmailScheduler settings:
 
 ## Troubleshooting
 1) Cannot connect to Gmail
-- You might occasionally see an error that looks like the image below.
+- You might occasionally see an error that looks like the image below:
 [![ErrorWithGmail](http://i.imgur.com/CNZAWhI.png)](http://i.imgur.com/CNZAWhI.png)
 - The message above means that Gmail could not connect to Google app scripts. This weird timeout happens between google services and you can ignore these messages. Any queued messages will be sent out in the next run.
 - Please set a Gmail filter to delete these messages. You can filter on messages with subject "Summary of failures for Google Apps Script: Gmail Scheduler" sent from: 	apps-scripts-notifications@google.com
