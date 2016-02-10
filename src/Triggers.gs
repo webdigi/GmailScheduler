@@ -30,6 +30,7 @@ function processTimer () {
   var queueLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL
   var queueLabelObject = GmailApp.getUserLabelByName(queueLabel)
   var timerChildLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
+  markSentMessagesForLabelObjects(queueLabelObject)
 
   for (var i = 0; i < timerChildLabels.length; i++) {
     var timerChildLabelObject
@@ -55,7 +56,6 @@ function processTimer () {
           queueLabelObject.addToThreads(page)
           // Move the threads into queueChildLabel
           queueChildLabelObject.addToThreads(page)
-          markSentMessagesForLabelObjects(queueChildLabelObject)
         }
         // Move the threads out of timerLabel
         timerChildLabelObject.removeFromThreads(page)
