@@ -3,7 +3,6 @@
 **********************/
 function Prefs () {
   var form_object = loadPrefsForForm()
-
   for (var prop in form_object) {
     if (form_object[prop] == 'true')
       this[prop] = true
@@ -25,17 +24,18 @@ function getUserPrefs (force_reload) {
 }
 
 function savePrefsFromForm (form_object) {
+  for (var default_prop in DEFAULT_PREFS) {
+    if(form_object[default_prop] == undefined){
+      form_object[default_prop] = false
+    }
+  }
   PropertiesService.getUserProperties().setProperties(form_object, true)
-
-  var prefs = getUserPrefs(true)
-
-  var message = 'Saved new preferences.'
-
-  return message
+  USER_PREFS = new Prefs()
+  return 'Saved new preferences.'
 }
 
 function loadPrefsForForm () {
-  prefs = PropertiesService.getUserProperties().getProperties()
+  var prefs = PropertiesService.getUserProperties().getProperties()
   var timerLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
   if (timerLabels.length) {
     prefs['timer'] = timerLabels

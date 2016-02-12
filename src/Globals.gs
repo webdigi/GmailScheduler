@@ -32,6 +32,7 @@ var SETTINGS_URL = 'https://script.google.com/macros/s/AKfycbw6hnnKGeG6xUsbRE9c3
 /* NOTE these names must match the 'name' attribute in HTML */
 var DEFAULT_PREFS = {
   move_sent_messages_inbox:        true,
+  log_in_spreadsheet:              true,
   mark_sent_messages_inbox_unread: false,
   nolabel_drafs_to_inbox:          false,
   localzone:                       'default',
