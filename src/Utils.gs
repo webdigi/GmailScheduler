@@ -51,6 +51,19 @@ function createFile(){
     return spreadsheet
 }
 
+function isMessageLogged(messageId){
+    var sheet = getSheetFromLogFile()
+    var range = sheet.getDataRange()
+    var values = range.getValues()
+
+    for (var i = 0; i < values.length; i++){
+        if (values[i][0] === messageId) {
+             return true
+        }
+    }
+    return false
+}
+
 function writeHeaders(sheet){
     sheet.getRange(1,1,1,5).merge()
     sheet.appendRow(['THIS FILE IS AUTOMATICALLY UPDATED - DO NOT MAKE MANUAL MODIFICATIONS.'])
@@ -150,8 +163,10 @@ function getSheetFromLogFile(){
 
 function logScheduledMessage(message){
     var sheet = getSheetFromLogFile()
-    var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
-    sheet.appendRow(row)
+    if(!isMessageLogged(message.getId())){
+        var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
+        sheet.appendRow(row)
+    }
 }
 
 function logMessageAsSent(messageId){
