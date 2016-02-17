@@ -41,8 +41,16 @@ function dispatchDraft (messageId) {
           attachments: message.getAttachments()
       }
 
-      GmailApp.sendEmail(message.getTo(), message.getSubject(), body, options)
-      message.moveToTrash()
+      try{
+        GmailApp.sendEmail(message.getTo(), message.getSubject(), body, options)
+        message.moveToTrash()
+      } catch(err) {
+        if(err.message === "Failed to send email: no recipient"){
+          Logger.log("Failed to send email: no recipient")
+        } else {
+          throw err
+        }
+      }
       return 'Delivered'
     } else {
       return 'Message not found in Drafts'
