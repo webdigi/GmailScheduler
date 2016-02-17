@@ -25,7 +25,7 @@ function getUserPrefs (force_reload) {
 
 function savePrefsFromForm (form_object) {
   for (var default_prop in DEFAULT_PREFS) {
-    if(form_object[default_prop] == undefined){
+    if(typeof form_object[default_prop] === "undefined"){
       form_object[default_prop] = false
     }
   }
