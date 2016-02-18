@@ -65,13 +65,13 @@ function isMessageLogged(messageId){
 }
 
 function writeHeaders(sheet){
-    sheet.getRange(1,1,1,5).merge()
+    sheet.getRange(1,1,1,6).merge()
     sheet.appendRow(['THIS FILE IS AUTOMATICALLY UPDATED - DO NOT MAKE MANUAL MODIFICATIONS.'])
     sheet.appendRow(LOG_FILE_HEADERS)
 }
 
 function addColorHeaders(sheet){
-    var range = sheet.getRange(2,1,1,5)
+    var range = sheet.getRange(2,1,1,6)
     var beauBlue = '#BCD4E6'
     range.setBackground(beauBlue)
     range.setFontWeight('bold')
@@ -164,8 +164,8 @@ function getSheetFromLogFile(){
 function logScheduledMessage(message){
     var sheet = getSheetFromLogFile()
     if(!isMessageLogged(message.getId())){
-        var row = [message.getId(), message.getTo(), message.getSubject(), message.getDate().toString(), 'Scheduled']
-        sheet.appendRow(row)
+      var row = [message.getId(), message.getTo(), message.getSubject(), 'Scheduled', message.getDate().toString(), 'Not sent' ]
+      sheet.appendRow(row)
     }
 }
 
@@ -175,7 +175,8 @@ function logMessageAsSent(messageId){
     var row = getRowByMessageId(messageId, range)
 
     if (row > 0){
-        sheet.getRange(row, 5).setValue('Sent')
+        sheet.getRange(row, 4).setValue('Sent')
+        sheet.getRange(row, 6).setValue((new Date()).toString())
     } else {
         throw 'Message not found'
     }
