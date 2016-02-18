@@ -9,21 +9,8 @@
       alert('ERROR:' + error.message)
     }
 
-    function sleep (milliseconds) {
-      var start = new Date().getTime()
-      for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds) {
-          break
-        }
-      }
-    }
-
     function getHandlers () {
       return google.script.run.withSuccessHandler(showAlert).withFailureHandler(showError)
-    }
-
-    function validate () {
-      return true
     }
 
     function getHandlersAndHidePrefs () {
@@ -96,6 +83,7 @@
     function validateTimerLabel (label) {
       return timerLabelValid
     }
+
     function deleteTimerLabel (item) {
       var label = item.parentNode.childNodes[0].innerHTML
       var liItem = item.parentNode
@@ -280,7 +268,7 @@
                 <input type="checkbox" name="nolabel_drafs_to_inbox" id="nolabel_drafs_to_inbox_true" value=true>Yes, bring all drafts to my inbox</input><br/>
                 </div><br/>
             </fieldset>
-            <button class="btn btn-primary" type='button' onclick='if (validate()) savePrefsForm()'>Save Settings</button>
+            <button class="btn btn-primary" type='button' onclick='savePrefsForm()'>Save Settings</button>
         </form>
         </div>
     </body>
