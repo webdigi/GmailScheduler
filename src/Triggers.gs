@@ -69,7 +69,9 @@ function markSentMessagesForLabelObjects(label){
     for (var i = 0; i < threads.length; i++) {
         var messages =  threads[i].getMessages()
         for (var i = 0; i < messages.length; i++) {
-           logScheduledMessage(messages[i])
+            if (messages[i].isDraft()) {
+                logScheduledMessage(messages[i])
+            }
         }
     }
 }
@@ -99,27 +101,27 @@ function processQueue () {
     }
 
     for (var x in threads) {
-      var thread = threads[x]
-      var messageId = threads[x].getMessages()[0].getId()
-      var message = GmailApp.getMessageById(messageId)
-      if (message.isDraft()) {
-        dispatchDraft(messageId)
-        logMessageAsSent(messageId)
+      var messages = threads[x].getMessages()
+      for(var i = 0; i < messages.length; i++){
+        if (messages[i].isDraft()) {
+          dispatchDraft(messages[i].getId())
+          logMessageAsSent(messages[i].getId())
 
-        // move sent message to inbox
-        if (userPrefs['move_sent_messages_inbox']) {
-          var sentMessage = GmailApp.search('To:' + message.getTo() + ' label:sent subject:' + message.getSubject() + '')[0]
-          sentMessage.removeLabel(queueLabelObject)
-          sentMessage.removeLabel(queueChildLabelObject)
-          sentMessage.moveToInbox()
-        }
-      } else {
-        thread.removeLabel(queueLabelObject)
-        thread.removeLabel(queueChildLabelObject)
-        GmailApp.moveThreadToInbox(threads[x])
+          // move sent message to inbox
+          if (userPrefs['move_sent_messages_inbox']) {
+            var sentMessage = GmailApp.search('To:' + messages[i].getTo() + ' label:sent subject:' + messages[i].getSubject() + '')[0]
+            sentMessage.removeLabel(queueLabelObject)
+            sentMessage.removeLabel(queueChildLabelObject)
+            sentMessage.moveToInbox()
+          }
+        } else {
+          threads[x].removeLabel(queueLabelObject)
+          threads[x].removeLabel(queueChildLabelObject)
+          GmailApp.moveThreadToInbox(threads[x])
 
-        if (userPrefs['mark_sent_messages_inbox_unread']) {
-          GmailApp.markMessageUnread(message)
+          if (userPrefs['mark_sent_messages_inbox_unread']) {
+            GmailApp.markMessageUnread(messages[i])
+          }
         }
       }
     }
