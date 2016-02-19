@@ -27,10 +27,13 @@ function deleteTriggers () {
 }
 
 function processTimer () {
+  var userPrefs = getUserPrefs(false)
   var queueLabel = SCHEDULER_LABEL + '/' + SCHEDULER_QUEUE_LABEL
   var queueLabelObject = GmailApp.getUserLabelByName(queueLabel)
   var timerChildLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
-  markSentMessagesForLabelObjects(queueLabelObject)
+  if (userPrefs['log_in_spreadsheet']) {
+    markSentMessagesForLabelObjects(queueLabelObject)
+  }
 
   for (var i = 0; i < timerChildLabels.length; i++) {
     var timerChildLabelObject
