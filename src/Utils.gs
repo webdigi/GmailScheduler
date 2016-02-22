@@ -79,31 +79,17 @@ function addColorHeaders(sheet){
 
 function createLabel (labelName) {
   var label = GmailApp.createLabel(labelName)
-
-  if (label) {
-    return true
-  } else {
-    return false
-  }
 }
 
 function deleteLabel (labelName) {
-  var userLabel         = GmailApp.getUserLabelByName(labelName)
+  var userLabel = GmailApp.getUserLabelByName(labelName)
   var deleteLabelResult = GmailApp.deleteLabel(userLabel)
-
-  if (deleteLabelResult) {
-    return true
-  } else {
-    return false
-  }
 }
 
 function createTimerChildLabels (labels) {
   for (var i in labels) {
     createLabel(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL + '/' + labels[i])
   }
-
-  return true
 }
 
 function createTimerChildLabel (label) {

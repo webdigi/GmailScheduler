@@ -134,12 +134,9 @@ function processQueue () {
 function moveDraftsToInbox () {
   var userPrefs = getUserPrefs(false)
 
-  if (!userPrefs['nolabel_drafs_to_inbox']) {
-    return
-  }
-
-  var drafts = GmailApp.getDraftMessages()
-  for (var i = 0; i < drafts.length; i++) {
-    drafts[i].getThread().moveToInbox()
+  if (userPrefs['nolabel_drafs_to_inbox']) {
+    var drafts = GmailApp.getDraftMessages()
+    for (var i = 0; i < drafts.length; i++) {
+      drafts[i].getThread().moveToInbox()
   }
 }
