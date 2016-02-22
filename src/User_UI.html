@@ -150,6 +150,12 @@
       timerLabelInput.onkeyup = function () {
         timerLabelValid = false
 
+        if(timerLabelInput.value.trim() == "") {
+            timerLabelDateString.parentNode.classList.add('hidden')
+        } else {
+            timerLabelDateString.parentNode.classList.remove('hidden')
+        }
+
         document.getElementById('timerLabelDateString').innerHTML = 'Processing date'
 
         google.script.run.withSuccessHandler(function (dateString) {
