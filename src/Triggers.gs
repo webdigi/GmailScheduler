@@ -71,9 +71,9 @@ function markSentMessagesForLabelObjects(label){
     var threads = label.getThreads()
     for (var i = 0; i < threads.length; i++) {
         var messages =  threads[i].getMessages()
-        for (var i = 0; i < messages.length; i++) {
-            if (messages[i].isDraft()) {
-                logScheduledMessage(messages[i])
+        for (var j = 0; j < messages.length; j++) {
+            if (messages[j].isDraft()) {
+                logScheduledMessage(messages[j])
             }
         }
     }
