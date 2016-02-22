@@ -60,6 +60,4 @@ function clearPreferences (form_object) {
 function setTimeZone (timezone) {
   prefs = PropertiesService.getUserProperties().getProperties()
   prefs['localzone'] = timezone
-
-  return true
 }
