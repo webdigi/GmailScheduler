@@ -38,7 +38,7 @@ function loadPrefsForForm () {
   var prefs = PropertiesService.getUserProperties().getProperties()
   var timerLabels = getUserChildLabels(SCHEDULER_LABEL + '/' + SCHEDULER_TIMER_LABEL)
   if (timerLabels.length) {
-    prefs['timer'] = timerLabels
+    prefs.timer = timerLabels
   }
 
   for (var default_prop in DEFAULT_PREFS) {
@@ -59,5 +59,5 @@ function clearPreferences (form_object) {
 
 function setTimeZone (timezone) {
   prefs = PropertiesService.getUserProperties().getProperties()
-  prefs['localzone'] = timezone
+  prefs.localzone = timezone
 }
