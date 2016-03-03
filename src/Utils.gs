@@ -1,6 +1,6 @@
 function getTimeZoneString () {
   var userPrefs = getUserPrefs()
-  var timezone_string = userPrefs['localzone']
+  var timezone_string = userPrefs.localzone
 
   if (timezone_string == DEFAULT_TIMEZONE) {
     timezone_string = CalendarApp.getDefaultCalendar().getTimeZone()
