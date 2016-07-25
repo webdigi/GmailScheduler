@@ -43,6 +43,9 @@ Accessing your GmailScheduler settings:
 - Simply visit the https://script.google.com/macros/s/AKfycbw6hnnKGeG6xUsbRE9c3WSvJibTbaW88DP9f83e8lFnc1v1kL0/manage/uninstall
 - Click on Uninstall (You can always follow the initial setup again to reinstall the scheduler)
 
+3) Error: Service using too much computer time for one day
+- This is a recent change with Gmail resource utilisation around mid 2016. Please uninstall and install app again to use lesser resources on Gmail.
+
 ## Further support & updates
 - We look forward to your feedback on how we can improve this system
 - Your commits and code updates are welcome. Looking forward to all the pull requests :)
