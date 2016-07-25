@@ -17,10 +17,13 @@ function createTriggers() {
       .everyMinutes(1)
       .create();
   
+  /* 
+  //COMMENTING OUT SMS TRIGGER WITH USER REPORTED ISSUES OF GMAIL LIMITS #31
    var smsTrigger = ScriptApp.newTrigger("processSms")
       .timeBased()
       .everyMinutes(1)
       .create();
+      */
 }
 
 function deleteTriggers() { 
